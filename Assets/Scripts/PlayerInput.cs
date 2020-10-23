@@ -19,6 +19,7 @@ public class PlayerInput : MonoBehaviour {
     public float Dup;
     public float Dright;
     public float Dmag;
+    public Vector3 DVec;
     public bool run;
     private float targetDup;
     private float targetDright;
@@ -52,8 +53,20 @@ public class PlayerInput : MonoBehaviour {
         Dup = Mathf.SmoothDamp(Dup, targetDup, ref velocityDup, 0.1f);
         Dright = Mathf.SmoothDamp(Dright, targetDright, ref velocityDright, 0.1f);
 
-        Dmag = Mathf.Sqrt(Dup * Dup + Dright * Dright);
+        Vector2 tempDAxis = SquareToCircle(new Vector2(Dright, Dup));
+         float Dright2 = tempDAxis.x;
+         float Dup2 = tempDAxis.y;
 
+        Dmag = Mathf.Sqrt(Dup2 * Dup2 + Dright2 * Dright2);
+        DVec = Dright2 * transform.right + Dup2 * transform.forward;
         run = Input.GetKey(KeyA);
+    }
+
+    private Vector2 SquareToCircle(Vector2 input)
+    {
+        Vector2 v = Vector2.zero;
+        v.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
+        v.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
+        return v;
     }
 }
