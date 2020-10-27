@@ -24,6 +24,9 @@ public class PlayerInput : MonoBehaviour {
     private float targetDup;
     private float targetDright;
 
+    public bool jump;
+    private bool lastJump;
+
     private float velocityDup;
     private float velocityDright;
 
@@ -60,6 +63,17 @@ public class PlayerInput : MonoBehaviour {
         Dmag = Mathf.Sqrt(Dup2 * Dup2 + Dright2 * Dright2);
         DVec = Dright2 * transform.right + Dup2 * transform.forward;
         run = Input.GetKey(KeyA);
+
+        bool tempJump = Input.GetKey(KeyB);
+        if(tempJump!=lastJump && tempJump==true)
+        {
+            jump = true;
+        }
+        else
+        {
+            jump = false;
+        }
+        lastJump = tempJump;
     }
 
     private Vector2 SquareToCircle(Vector2 input)
