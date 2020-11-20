@@ -15,9 +15,18 @@ public class PlayerInput : MonoBehaviour {
     public string KeyC;
     public string KeyD;
 
+    //相机控制
+    public string JKeyUp;
+    public string JKeyDown;
+    public string JKeyLeft;
+    public string JKeyRight;
+
     [Header("===============Output Signals==========")]
     public float Dup;
     public float Dright;
+
+    public float Jup;
+    public float Jright;
     public float Dmag;
     public Vector3 DVec;
     public bool run;
@@ -26,6 +35,9 @@ public class PlayerInput : MonoBehaviour {
 
     public bool jump;
     private bool lastJump;
+
+    public bool attack;
+    private bool lastAttack;
 
     private float velocityDup;
     private float velocityDright;
@@ -47,7 +59,10 @@ public class PlayerInput : MonoBehaviour {
         targetDup = Input.GetKey(KeyUp)?1.0f:0 - (Input.GetKey(KeyDown)? 1.0f : 0);
         targetDright = Input.GetKey(KeyRight) ? 1.0f : 0 - (Input.GetKey(KeyLeft) ? 1.0f : 0);
 
-        if(inputEnabled==false)
+        Jup = Input.GetKey(JKeyUp) ? 1.0f : 0 - (Input.GetKey(JKeyDown) ? 1.0f : 0);
+        Jright = Input.GetKey(JKeyRight) ? 1.0f : 0 - (Input.GetKey(JKeyLeft) ? 1.0f : 0);
+
+        if (inputEnabled==false)
         {
             targetDright = 0.0f;
             targetDup = 0.0f;
@@ -74,6 +89,18 @@ public class PlayerInput : MonoBehaviour {
             jump = false;
         }
         lastJump = tempJump;
+
+        bool tempAttack = Input.GetKey(KeyC);
+        if (tempAttack != lastAttack && tempAttack == true)
+        {
+            attack = true;
+        }
+        else
+        {
+            attack = false;
+        }
+        lastAttack = tempAttack;
+        print(attack);
     }
 
     private Vector2 SquareToCircle(Vector2 input)
